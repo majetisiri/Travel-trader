@@ -1,0 +1,96 @@
+<style>
+/* latin-ext */
+@font-face {
+  font-family: 'Bitter';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Bitter-Regular'), url(https://fonts.gstatic.com/s/bitter/v8/Qt2dUzVlMd1bCOcZXl06LPesZW2xOQ-xsNqO47m55DA.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Bitter';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Bitter-Regular'), url(https://fonts.gstatic.com/s/bitter/v8/zfs6I-5mjWQ3nxqccMoL2A.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Bitter';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Bitter-Bold'), url(https://fonts.gstatic.com/s/bitter/v8/JGVZEP92dXgoQBG1CnQcfBJtnKITppOI_IvcXXDNrsc.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Bitter';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Bitter-Bold'), url(https://fonts.gstatic.com/s/bitter/v8/evC1haE-MsorTl_A7_uSGVtXRa8TVwTICgirnJhmVJw.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin */
+@font-face {
+  font-family: 'Pacifico';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Pacifico Regular'), local('Pacifico-Regular'), url(https://fonts.gstatic.com/s/pacifico/v7/Q_Z9mv4hySLTMoMjnk_rCfesZW2xOQ-xsNqO47m55DA.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
+	img{
+		width: 300px;
+		height:200px;
+		padding-right: 50px;
+	}
+	
+	.form{
+		padding-top:250px;
+	}
+
+	#heading{
+		font-family: 'Pacifico', cursive;
+		font-size: 80px;
+		text-align: center;
+		color: black;
+		padding-top: 180px;
+	}
+
+	#caption{
+		font-family: 'Bitter', serif;
+		font-weight: bold;
+		font-size: 20px;
+		text-align: center;
+		color: black;
+		padding-bottom: 80px;
+	}
+
+	body{
+		background-image: url("../img/bg.jpeg");
+		background-repeat: no-repeat;
+	    background-attachment: fixed;
+	    background-size: cover;
+	}
+
+
+	.btn {
+	    background-color: #efa80f; 
+	    font-weight: 600;
+	    font-size: 20px;
+	    color:white;
+	    padding: 10 45px;
+	  }
+
+	.form-control{
+		font-size: 12px;
+		font-weight: 600;
+	}
+
+	.box{
+		width:200px;
+		height: 50px;
+	}
+
+</style>
