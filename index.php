@@ -31,14 +31,19 @@
 							<option>$3000</option>
 							<option>$4000</option>
 							<option>$5000</option>
+							<option>$10000</option>
+							<option>$20000</option>
+							<option>$30000</option>
+							<option>$40000</option>
+							<option>$50000</option>
 						</select>
 						<select class="form-control box"  name="max_price">
 							<option>Max Price</option>
-							<option>$6000</option>
-							<option>$7000</option>
-							<option>$8000</option>
-							<option>$9000</option>
-							<option>$10000</option>
+							<option>$100000</option>
+							<option>$200000</option>
+							<option>$300000</option>
+							<option>$500000</option>
+							<option>$1000000</option>
 						</select>
 					</div>
 					<div class="form-group">

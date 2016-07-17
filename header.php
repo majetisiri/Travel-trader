@@ -14,7 +14,7 @@
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="/travel_trader">
+      <a class="navbar-brand" href="/de">
       	<p id="heading">
       	<i class="fa fa-car" aria-hidden="true"></i>
 		Travel Trader</p>

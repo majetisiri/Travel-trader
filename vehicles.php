@@ -27,13 +27,19 @@ if (isset($_POST['search'])) {
 		echo '<div class="container" style="margin-top:50px;">';	
 
 		while($row= $result->fetch_assoc()) {
-		echo '
+			$vid = $row["vehicle_id"];
+			$sql1= "select img_url from listing_images
+			where listing_images.vehicle_id = '$vid' limit 1";
+			$result1 =$conn->query($sql1);
+			$url = $result1->fetch_assoc();
+			// print_r($url);
+		echo ' 
 			<div style="margin-bottom:30px; cursor:pointer;" class="col-xs-4 col-sm-2 col-md-2 car-box post" id="'.$row["vehicle_id"].'"><a href="vehicles.php?vehicle_id='.urlencode($row["vehicle_id"]).'">
     			<div style="box-shadow: 1px 1px 1px #888888;" class="thumbnail">
       				<div class="caption">
             			 <h4>'.$row["model"].'</h4><hr>
       				</div>
-      				<img width="150" style="margin-bottom:40px;" src="img/car.png"> 
+      				<img width="150" style="margin-bottom:40px;" src="'.$url['img_url'].'"> 
         			<div class="row car-info" style="margin-bottom:8px;">
         				<div class="car-details">
         					<div class="col-md-4 text-center">
@@ -70,40 +76,47 @@ if(isset($_GET['vehicle_id'])){
             on seller.vehicle_id = vehicles.vehicle_id
 			where seller.vehicle_id = '$vehicle_id'" ;
 	$result =$conn->query($sql);
+	$sql1= "select img_url from listing_images
+			where listing_images.vehicle_id = '$vehicle_id'" ;
+	$result1 =$conn->query($sql1);
+	$json_img_url=array();
+	if($result1 ->num_rows>0){
+		while($row1= $result1->fetch_assoc()) {
+			// print_r($row1);
+			array_push($json_img_url,$row1['img_url']);
+		}
+	}
+
 	if($result ->num_rows>0){
 		while($row= $result->fetch_assoc()) {
-			// print_r($row);
+			
+
 			echo '<div class="row listing">
   <div id="myCarousel" class="carousel slide" data-ride="carousel">
     <!-- Indicators -->
-	<h4 style="text-align:center">'.$row['year'].$row['make'].$row['model'].'<h4>
-    <ol class="carousel-indicators">
-      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-      <li data-target="#myCarousel" data-slide-to="1"></li>
-      <li data-target="#myCarousel" data-slide-to="2"></li>
-      <li data-target="#myCarousel" data-slide-to="3"></li>
-    </ol>
+	<h4 style="text-align:center">'.$row['year'].' '.$row['make'].' '.$row['model'].'<h4>
+    <ol class="carousel-indicators">';
+
+    for($j=0; $j<count($json_img_url); $j++){
+	
+      echo '<li data-target="#myCarousel" data-slide-to="'.$j.'" class="active"></li>';
+  }
+    echo '</ol>
 
     <!-- Wrapper for slides -->
     <div class="carousel-inner" role="listbox">
       <div class="item active">
-        <img src="img/car.png" alt="Chania" width="460" height="345">
-      </div>
+        <img src="'.$json_img_url[0].'" alt="Chania" width="460" height="345">
+      </div>';
 
-      <div class="item">
-        <img src="img/motorCycle.png" alt="Chania" width="460" height="345">
-      </div>
-    
-      <div class="item">
-        <img src="img/bg.jpeg" alt="Flower" width="460" height="345">
-      </div>
-
-      <div class="item">
-        <img src="img/truck.png" alt="Flower" width="460" height="345">
-      </div>
-    </div>
-
-    <!-- Left and right controls -->
+	for($j=1; $j<count($json_img_url); $j++){
+	
+      echo '<div class="item">
+        <img src="'.$json_img_url[$j].'" alt="Chania" width="460" height="345">
+      </div>';
+    }
+      
+    echo '<!-- Left and right controls -->
     <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
       <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
       <span class="sr-only">Previous</span>
@@ -115,35 +128,24 @@ if(isset($_GET['vehicle_id'])){
   </div>
 </div>
 <div class="row" id="features">
-<h2  class="text-center" style="font-size:30px;"> <span style="font-weight:800">CAR</span> FEATURES </h2></br>
-	<div class="col-md-offset-4" style ="float:left">
-	<p>'.$row['make'].'</p></br>
-	<p>'.$row['model'].'</p></br>
-	 <p>'.$row['year'].' Type</br>
-	 <p>'.$row['color'].'</p></br>
-	 <p>'.$row['transmission'].'</p></br>
-	 <p>'.$row['body_type'].'</p></br>
-	 <p>'.$row['fuel_type'].'</p></br>
+<h2  class="text-center" style="font-size:35px;"> <span style="font-weight:800">CAR</span> FEATURES </h2></br>
+	<div class="col-md-offset-2" style ="float:left">
+	<p class="feature">'.$row['make'].'</p></br>
+	<p class="feature">'.$row['model'].'</p></br>
+	 <p class="feature">'.$row['year'].'</br>
+	 <p class="feature">'.$row['color'].'</p></br>
+	 <p class="feature">'.$row['transmission'].'</p></br>
+	 <p class="feature">'.$row['body_type'].'</p></br>
+	 <p class="feature">'.$row['fuel_type'].'</p></br>
 	</div>
-	<div class="col-md-offset-1 col-md-2">
-	<p>Transmission</p></br>
-	<p>Color</p></br>
-	 <p>Body Type</br>
-	 <p>Model</p></br>
-	 <p>Make</p></br>
-	 <p>Year</p></br>
-	 <p>Fuel Type</p></br>
+	<div class="col-md-offset-1 col-md-6">
+	<h2  class="about"> DESCRIPTION </h2></br>
+	
+	<p class="about-name">'.$row['year'].' '.$row['make'].' '.$row['model'].'</p>
+			<p  class="about-content">'.$row['description'].'
+			</p>
 	</div>
 </div>
-<div id="description">
-	<div class="row">
-	<h2  class="text-center" style="font-size:30px;"> DESCRIPTION </h2></br>
-		<div class="col-md-offset-3 col-md-6">
-		<p>'.$row['description'].'</p>
-		</div>
-		</div>
-		
-	</div>
  <div id="reviews">
 	<h2  class="text-center" style="font-size:30px;"> REVIEWS </h2></br>
 		  <div class="row" style=" margin-bottom:0px;">
@@ -272,9 +274,29 @@ color: #fff;
 color:black;
 }
 
-#description{
-	color: black;
-	font-size: 20px;
+.about{
+font-family: 'Open Sans';
+    color: #1f2224;
 	font-style: bold;
+	font-size: 30px;
+}
+
+.about-name{
+color: #fc5a0a;
+font-size: 25px;
+font-style:bold;
+font-family:'Montserrat';
+}
+
+.about-content {
+font-family:'Open Sans';font-size:20px;color:#1c1d21;
+}
+
+.feature{
+font-size: 19px;
+    font-weight: 600;
+    text-transform: uppercase;
+	    padding: 0px 20px 0px 46px;
+color: #fc5a0a;
 }
   </style>
