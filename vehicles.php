@@ -2,6 +2,8 @@
 
 include 'config.php';
 
+include 'resources.php';
+
 if (isset($_POST['search'])) {
 	$listing_type = $_POST['listing_type'];
 	$keyword= $_POST['keyword'];
@@ -26,6 +28,8 @@ if (isset($_POST['search'])) {
 		$json_color=array();
 		$json_transmission=array();	
 		$json_body_type=array();
+		$json_price=array();
+		$json_year=array();
 		
 	// print_r($result);
 	if ($result->num_rows > 0) {
@@ -38,28 +42,44 @@ if (isset($_POST['search'])) {
 			array_push($json_color,$row['color']);
 			array_push($json_transmission,$row['transmission']);
 			array_push($json_body_type,$row['body_type']);
+			array_push($json_price,$row['price']);
+			array_push($json_year,$row['year']);
 		}
 	
+		// print_r($json_model);
+		echo '<div class="col-md-offset-3 col-md-5">';
 		for ($i=0; $i<count($json_model); $i++){
-			// $sql="SELECT request_status FROM Requests WHERE to_id='$uid' AND from_id='$json_id[$i]'";
-			// $result =$conn->query($sql);
-			// if($result->num_rows>0){
-			// 	//print_r($result);
-			// 	if (($result->fetch_assoc()['request_status']) === '1'){
-			// 		//echo "im in pending";
-					echo $json_model[$i];
-				// }
-				// else if (($result->fetch_assoc()['request_status']) === '2'){
-				// 	//echo "im in accepted";
-				// 	echo '<div style="font-size:25px" class="col-md-5 col-md-offset-3" >'.$json_username[$i].
-				// 			'</br><p> You are now friends</p>
-				// 		</div></br>';	
-				// }
-			// }
+			echo '
+        <div class="row">
+          <div class="card darken-1">
+            <table>
+			<tr>
+			<td>
+			<img src="img/car.png" width= 100px; height= 100px>
+			</td>
+			<td>
+			<div class="card-content">
+			
+              <span class="card-title">'.$json_model[$i].'</span>
+              <p class="model">'.$json_year[$i].'</p>
+              <p id="price">$'.$json_price[$i].'</p>
+			  <p id ="color">'.$json_color[$i].'</p>
+			  <p id ="transmission">'.$json_transmission[$i].'| '.$json_body_type[$i].'</p>
+			   </div>
+			 </td>
+			 <td>
+			 <div class="card-content">
+			
+              <span class="seller-name">Srividya Majeti</span>
+              <p id ="email">majetisiri@gmail.com</p>
+			  <p id ="phone_number"> 757-685-2052</p>
+			  <p id = "website">www.google.com</p>
+			   </div></td>
+			 </tr>
+			 </table>
+          </div>
+        </div>';
 		}
-		
-		print_r($json_model);
-		
 	}
 	else{
 		$loginErr = "Matches Not Found";
