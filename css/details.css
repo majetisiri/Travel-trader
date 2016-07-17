@@ -1,0 +1,68 @@
+ <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+
+  <style>
+  .carousel-inner > .item > img,
+  .carousel-inner > .item > a > img {
+      max-width: 100%;
+      margin: auto;
+	  height: auto;
+	  display:block;
+	  padding-bottom:80px;
+  }
+  .carousel-indicators .active {
+	  background-color: black;
+}
+
+.carousel-indicators li {
+  border: 1px solid black;
+}
+
+.carousel-control.left {
+  background-image: none;
+}
+.carousel-control.right {
+  background-image: none;
+}
+.left, .right{
+color:black;
+}
+
+#contact{
+background: #272d33;
+color: #fff;
+}
+
+#features{
+background: #fff;
+}
+
+.listing{
+background: #fff;
+margin-bottom:0px;
+}
+
+body{
+background: url(img/bg.jpeg);
+background-repeat: no-repeat;
+background-attachment: fixed;
+background-size:cover;
+}
+
+#reviews{
+background: #fc5a0a;
+color: #fff;
+}
+
+.card-title{
+color:black;
+}
+
+#description{
+	color: black;
+	font-size: 20px;
+	font-style: bold;
+}
+  </style>
