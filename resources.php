@@ -32,4 +32,8 @@
 	#color, #transmission{
 		font-family: 'Oxygen', sans-serif;
 	}
+
+	 a:hover{
+	 	text-decoration: none;
+	 }
 </style>

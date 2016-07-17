@@ -9,7 +9,7 @@ if (isset($_POST['search'])) {
 	$min_price = substr($_POST['min_price'], 1);
 	$max_price = substr($_POST['max_price'], 1);
 	
-	// echo $min_price, $max_price, $keyword, $listing_type ;
+	echo $min_price, $max_price, $keyword, $listing_type ;
 	$sql = "select * from vehicles
 				join seller
                  on seller.vehicle_id = vehicles.vehicle_id
@@ -69,32 +69,31 @@ if (isset($_POST['search'])) {
 		echo '<div class="col-md-offset-3 col-md-5">';
 		for ($i=0; $i<count($json_vehicle_id); $i++){
 			echo '
-        <div class="row">
+        <div class="row listing_item" id="'.$json_vehicle_id[$i].'"><a href="vehicles.php?vehicle_id='.urlencode($json_vehicle_id[$i]).'">
           <div class="card darken-1">
             <table>
-			<tr>
-			<td>
-			<img src="img/car.png" width= 100px; height= 100px>
-			</td>
-			<td>
-			<div class="card-content">
-			
-              <span class="card-title">'.$json_make[$i].' '.$json_model[$i].'</span>
-              <p class="model">'.$json_year[$i].'</p>
-              <p id="price">$'.$json_price[$i].'</p>
-			  <p id ="color">'.$json_color[$i].'</p>
-			  <p id ="transmission">'.$json_transmission[$i].'| '.$json_body_type[$i].'</p>
-			   </div>
-			 </td>
-			 <td>
-			 <div class="card-content">
-			
-              <span class="seller-name">'.$json_name[$i].'</span>
-              <p id ="email">'.$json_email[$i].'</p>
-			  <p id ="phone_number"> '.$json_phone_number[$i].'</p>
-			  <p id = "website">'.$json_website[$i].'</p>
-			   </div></td>
-			 </tr>
+				<tr>
+					<td>
+						<img src="img/car.png" width= 100px; height= 100px>
+					</td>
+					<td>
+						<div class="card-content">
+			              <span class="card-title">'.$json_make[$i].' '.$json_model[$i].'</span>
+			              <p class="model">'.$json_year[$i].'</p>
+			              <p id="price">$'.$json_price[$i].'</p>
+						  <p id ="color">'.$json_color[$i].'</p>
+						  <p id ="transmission">'.$json_transmission[$i].'| '.$json_body_type[$i].'</p>
+						</div>
+					</td>
+					<td>
+						<div class="card-content">
+			              <span class="seller-name">'.$json_name[$i].'</span>
+			              <p id ="email">'.$json_email[$i].'</p>
+						  <p id ="phone_number"> '.$json_phone_number[$i].'</p>
+						  <p id = "website">'.$json_website[$i].'</p>
+						</div>
+					</td>
+				 </tr>
 			 </table>
           </div>
         </div>';
@@ -102,9 +101,10 @@ if (isset($_POST['search'])) {
 	}
 	else{
 		$loginErr = "Matches Not Found";
-		echo 'im here';
-
+		header('Location:index.php');
+		echo '<p>Matches Not Found</p>';
 	}
 }
-
+	
+}
 ?>
