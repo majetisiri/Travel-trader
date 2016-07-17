@@ -1,7 +1,6 @@
 <?php
 
 include 'config.php';
-
 include 'resources.php';
 
 if (isset($_POST['search'])) {
@@ -12,11 +11,14 @@ if (isset($_POST['search'])) {
 	
 	// echo $min_price, $max_price, $keyword, $listing_type ;
 	$sql = "select * from vehicles
+				join seller
+                 on seller.vehicle_id = vehicles.vehicle_id
 			 where type_id in(select id from vehicle_type 
 			 					where vehicle_type ='$listing_type') 
 			and ( price >'$min_price')
 			and (price <'$max_price')
 			and (model like '%$keyword%' or make like '%$keyword%' or description like '%$keyword%' or fuel_type like '%$keyword%' or color like '%$keyword%' or transmission like '%$keyword%' or body_type like '%$keyword%');";
+		
 	// echo $sql;
 	// echo 'im here';
 	$result = $conn->query($sql);
@@ -30,6 +32,14 @@ if (isset($_POST['search'])) {
 		$json_body_type=array();
 		$json_price=array();
 		$json_year=array();
+		$json_vehicle_id=array();
+
+		$json_seller_type=array();
+		$json_name=array();
+		$json_address=array();
+		$json_phone_number=array();
+		$json_email=array();
+		$json_website=array();
 		
 	// print_r($result);
 	if ($result->num_rows > 0) {
@@ -44,11 +54,20 @@ if (isset($_POST['search'])) {
 			array_push($json_body_type,$row['body_type']);
 			array_push($json_price,$row['price']);
 			array_push($json_year,$row['year']);
+			array_push($json_vehicle_id,$row['vehicle_id']);
+
+
+			array_push($json_seller_type,$row['seller_type']);
+			array_push($json_name,$row['name']);
+			array_push($json_address,$row['address']);
+			array_push($json_phone_number,$row['phone_number']);
+			array_push($json_email,$row['email']);
+			array_push($json_website,$row['website']);
 		}
 	
 		// print_r($json_model);
 		echo '<div class="col-md-offset-3 col-md-5">';
-		for ($i=0; $i<count($json_model); $i++){
+		for ($i=0; $i<count($json_vehicle_id); $i++){
 			echo '
         <div class="row">
           <div class="card darken-1">
@@ -60,7 +79,7 @@ if (isset($_POST['search'])) {
 			<td>
 			<div class="card-content">
 			
-              <span class="card-title">'.$json_model[$i].'</span>
+              <span class="card-title">'.$json_make[$i].' '.$json_model[$i].'</span>
               <p class="model">'.$json_year[$i].'</p>
               <p id="price">$'.$json_price[$i].'</p>
 			  <p id ="color">'.$json_color[$i].'</p>
@@ -70,10 +89,10 @@ if (isset($_POST['search'])) {
 			 <td>
 			 <div class="card-content">
 			
-              <span class="seller-name">Srividya Majeti</span>
-              <p id ="email">majetisiri@gmail.com</p>
-			  <p id ="phone_number"> 757-685-2052</p>
-			  <p id = "website">www.google.com</p>
+              <span class="seller-name">'.$json_name[$i].'</span>
+              <p id ="email">'.$json_email[$i].'</p>
+			  <p id ="phone_number"> '.$json_phone_number[$i].'</p>
+			  <p id = "website">'.$json_website[$i].'</p>
 			   </div></td>
 			 </tr>
 			 </table>
