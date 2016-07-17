@@ -2,6 +2,7 @@
 
 include 'config.php';
 include 'resources.php';
+include 'header.php';
 
 if (isset($_POST['search'])) {
 	$listing_type = $_POST['listing_type'];
@@ -9,7 +10,6 @@ if (isset($_POST['search'])) {
 	$min_price = substr($_POST['min_price'], 1);
 	$max_price = substr($_POST['max_price'], 1);
 	
-	echo $min_price, $max_price, $keyword, $listing_type ;
 	$sql = "select * from vehicles
 				join seller
                  on seller.vehicle_id = vehicles.vehicle_id
@@ -19,92 +19,76 @@ if (isset($_POST['search'])) {
 			and (price <'$max_price')
 			and (model like '%$keyword%' or make like '%$keyword%' or description like '%$keyword%' or fuel_type like '%$keyword%' or color like '%$keyword%' or transmission like '%$keyword%' or body_type like '%$keyword%');";
 		
-	// echo $sql;
-	// echo 'im here';
 	$result = $conn->query($sql);
 
-		$json_model=array();
-		$json_make=array();
-		$json_description=array();
-		$json_fuel_type=array();
-		$json_color=array();
-		$json_transmission=array();	
-		$json_body_type=array();
-		$json_price=array();
-		$json_year=array();
-		$json_vehicle_id=array();
-
-		$json_seller_type=array();
-		$json_name=array();
-		$json_address=array();
-		$json_phone_number=array();
-		$json_email=array();
-		$json_website=array();
+	//print_r($result->fetch_assoc());
 		
-	// print_r($result);
 	if ($result->num_rows > 0) {
-		// echo $result;
-		while($row= $result->fetch_assoc()){
-			array_push($json_model,$row['model']);
-			array_push($json_make,$row['make']);
-			array_push($json_description,$row['description']);
-			array_push($json_fuel_type,$row['fuel_type']);
-			array_push($json_color,$row['color']);
-			array_push($json_transmission,$row['transmission']);
-			array_push($json_body_type,$row['body_type']);
-			array_push($json_price,$row['price']);
-			array_push($json_year,$row['year']);
-			array_push($json_vehicle_id,$row['vehicle_id']);
+		echo '<div class="container" style="margin-top:50px;">';	
 
-
-			array_push($json_seller_type,$row['seller_type']);
-			array_push($json_name,$row['name']);
-			array_push($json_address,$row['address']);
-			array_push($json_phone_number,$row['phone_number']);
-			array_push($json_email,$row['email']);
-			array_push($json_website,$row['website']);
+		while($row= $result->fetch_assoc()) {
+		echo '
+			<div style="margin-bottom:30px; cursor:pointer;" class="col-xs-4 col-sm-2 col-md-2 car-box post" id="'.$row["vehicle_id"].'"><a href="vehicles.php?vehicle_id='.urlencode($row["vehicle_id"]).'">
+    			<div style="box-shadow: 1px 1px 1px #888888;" class="thumbnail">
+      				<div class="caption">
+            			 <h4>'.$row["model"].'</h4><hr>
+      				</div>
+      				<img width="150" style="margin-bottom:40px;" src="img/car.png"> 
+        			<div class="row car-info" style="margin-bottom:8px;">
+        				<div class="car-details">
+        					<div class="col-md-4 text-center">
+        						<b>MAKE</b></br>'.$row["make"].'
+        					</div>
+        					<div class="col-md-4 pull-right text-center">
+        						<b>YEAR</b></br>'.$row["year"].'
+        					</div>
+        				</div>
+        				<div class="details-button col-md-12">
+        					<button style="width:100%;" class="btn btn-warning">
+        						<i class="fa fa-info-circle" aria-hidden="true"></i>
+								GET DETAILS
+							</button>
+        				</div>
+        			</div>
+          		</div></a>
+          	</div>';
 		}
-	
-		// print_r($json_model);
-		echo '<div class="col-md-offset-3 col-md-5">';
-		for ($i=0; $i<count($json_vehicle_id); $i++){
-			echo '
-        <div class="row listing_item" id="'.$json_vehicle_id[$i].'"><a href="vehicles.php?vehicle_id='.urlencode($json_vehicle_id[$i]).'">
-          <div class="card darken-1">
-            <table>
-				<tr>
-					<td>
-						<img src="img/car.png" width= 100px; height= 100px>
-					</td>
-					<td>
-						<div class="card-content">
-			              <span class="card-title">'.$json_make[$i].' '.$json_model[$i].'</span>
-			              <p class="model">'.$json_year[$i].'</p>
-			              <p id="price">$'.$json_price[$i].'</p>
-						  <p id ="color">'.$json_color[$i].'</p>
-						  <p id ="transmission">'.$json_transmission[$i].'| '.$json_body_type[$i].'</p>
-						</div>
-					</td>
-					<td>
-						<div class="card-content">
-			              <span class="seller-name">'.$json_name[$i].'</span>
-			              <p id ="email">'.$json_email[$i].'</p>
-						  <p id ="phone_number"> '.$json_phone_number[$i].'</p>
-						  <p id = "website">'.$json_website[$i].'</p>
-						</div>
-					</td>
-				 </tr>
-			 </table>
-          </div>
-        </div>';
-		}
+		echo '</div>';
 	}
+
 	else{
 		$loginErr = "Matches Not Found";
 		header('Location:index.php');
 		echo '<p>Matches Not Found</p>';
 	}
 }
+
+if(isset($_GET['vehicle_id'])){
+	$vehicle_id = $_GET['vehicle_id'];
+	$sql= "select * from vehicles
+			join seller
+            on seller.vehicle_id = vehicles.vehicle_id
+			where seller.vehicle_id = '$vehicle_id'" ;
+	$result =$conn->query($sql);
+	if($result ->num_rows>0){
+		while($row= $result->fetch_assoc()) {
+			print_r($row);
+		}
+	} 
 	
 }
+	
 ?>
+
+<script>
+	$(document).ready(function() {
+		$('.details-button').hide();
+		$('.car-box').hover(function(){
+			$(this).find('.car-details').hide();
+			$(this).find('.details-button').show();
+		}, function(){
+			$(this).find('.car-details').show();
+			$(this).find('.details-button').hide();
+		});
+	});
+</script>

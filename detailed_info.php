@@ -9,14 +9,8 @@ if(isset($_GET['vehicle_id'])){
 			where listing_images.vehicle_id = '$vehicle_id'" ;
 	$result =$conn->query($sql);
 	if($result ->num_rows>0){
-		
+		print_r($result);
 	} 
 	
 }
 ?>
-
-<html>
-<body>
-	<p>helo</p>
-</body>
-</html>
