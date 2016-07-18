@@ -1,3 +1,28 @@
+<script>
+	$(document).ready(function() {
+		$('.details-button').hide();
+		$('.car-box').hover(function(){
+			$(this).find('.car-details').hide();
+			$(this).find('.details-button').show();
+		}, function(){
+			$(this).find('.car-details').show();
+			$(this).find('.details-button').hide();
+		});
+	});
+
+	$(window).scroll(function() {
+		$('.animatedElement').each(function(){
+		var imagePos = $(this).offset().top;
+
+		var topOfWindow = $(window).scrollTop();
+			if (imagePos < topOfWindow+400) {
+				$(this).addClass("slideOutUp");
+			}
+		});
+	});
+</script>
+
+
 <?php
 
 include 'config.php';
@@ -61,7 +86,7 @@ function displayCars($result,$conn){
 			$url = $result1->fetch_assoc();
 			// echo 'im here finally';
 		echo ' 
-			<div style="margin-bottom:30px; cursor:pointer;" class="col-xs-4 col-sm-2 col-md-2 car-box post" id="'.$row["vehicle_id"].'"><a href="vehicles.php?vehicle_id='.urlencode($row["vehicle_id"]).'">
+			<div style="margin-bottom:30px; cursor:pointer;" class="animated slideInUp col-xs-4 col-sm-2 col-md-2 car-box post" id="'.$row["vehicle_id"].'"><a href="vehicles.php?vehicle_id='.urlencode($row["vehicle_id"]).'">
     			<div style="box-shadow: 1px 1px 1px #888888;" class="thumbnail">
       				<div class="caption">
             			 <h4>'.$row["make"].' '.$row["model"].'</h4><hr>
@@ -84,9 +109,9 @@ function displayCars($result,$conn){
         				</div>
         			</div>
           		</div></a>
-          	</div></div>';
+          	</div>';
 		}
-		// echo 'im here finally';
+		echo '</div>';
 	}
 }
 
@@ -115,7 +140,7 @@ if(isset($_GET['vehicle_id'])){
 			echo '<div class="row listing">
   <div id="myCarousel" class="carousel slide" data-ride="carousel">
     <!-- Indicators -->
-	<h4 style="text-align:center" id="heading">'.$row['year'].' '.$row['make'].' '.$row['model'].'<h4>
+	<h4 style="text-align:center" id="heading" class="animated slideInDown">'.$row['year'].' '.$row['make'].' '.$row['model'].'<h4>
     <ol class="carousel-indicators">';
 
     for($j=0; $j<count($json_img_url); $j++){
@@ -149,8 +174,8 @@ if(isset($_GET['vehicle_id'])){
   </div>
 </div>
 <div class="row" id="features">
-<h2  class="text-center" style="font-size:35px;"> <span style="font-weight:800">CAR</span> FEATURES </h2></br>
-	<div class="col-md-offset-2" style ="float:left">
+<h2  class="text-center  animated bounceInRight" style="font-size:35px;"> <span style="font-weight:800">CAR</span> FEATURES </h2></br>
+	<div class="col-md-offset-2 animated bounceInUp" style ="float:left">
 	<p class="feature">'.$row['make'].'</p></br>
 	<p class="feature">'.$row['model'].'</p></br>
 	 <p class="feature">'.$row['year'].'</br>
@@ -160,10 +185,10 @@ if(isset($_GET['vehicle_id'])){
 	 <p class="feature">'.$row['fuel_type'].'</p></br>
 	</div>
 	<div class="col-md-offset-1 col-md-6">
-	<h2  class="about"> DESCRIPTION </h2></br>
+	<h2  class="about animated bounceInRight"> DESCRIPTION </h2></br>
 	
-	<p class="about-name">'.$row['year'].' '.$row['make'].' '.$row['model'].'</p>
-			<p  class="about-content">'.$row['description'].'
+	<p class="about-name animated bounceInRight">'.$row['year'].' '.$row['make'].' '.$row['model'].'</p>
+			<p  class="about-content animated bounceInRight">'.$row['description'].'
 			</p>
 	</div>
 </div>
@@ -171,7 +196,7 @@ if(isset($_GET['vehicle_id'])){
 	</br><h2  class="text-center" style="font-size:30px;"> REVIEWS </h2></br>
 		  <div class="row" style=" margin-bottom:0px;">
 			<div class="col-md-2 col-md-offset-4">
-			  <div class="card">
+			  <div class="card animatedElement">
 				<div class="card-content">
 				<img src="http://absorbmarketing.com/wp-content/uploads/2015/01/Picture-of-person.png"  width="100%" height="auto">
 				  <span class="card-title">Mark Johnson</span> </br>
@@ -184,7 +209,7 @@ if(isset($_GET['vehicle_id'])){
 			  </div>
 			</div>
 			<div class="col-md-2">
-			  <div class="card">
+			  <div class="card animatedElement">
 				<div class="card-content">
 				<img src="http://engineering.unl.edu/images/staff/Kayla_Person-small.jpg" width="100%" height="auto">
 				  <span class="card-title">Alan smith</span></br>
@@ -201,7 +226,7 @@ with my flat tire late at night even with all the complications due to the blown
 	</div>
 	<div id="contact">
 	<div class="row">
-	<h2  class="text-center" style="font-size:40px;"> CONTACTS </h2></br>
+	<h2  class="text-center animatedElement" style="font-size:40px;"> CONTACTS </h2></br>
 		<div class="col-md-offset-3" style="float:left">
 		<p class="contact_info"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Name: '.$row['name'].'</p>
 		<p class="contact_info">Seller Type: '.$row['seller_type'].'</p>
@@ -227,23 +252,13 @@ with my flat tire late at night even with all the complications due to the blown
 	
 ?>
 
-<script>
-	$(document).ready(function() {
-		$('.details-button').hide();
-		$('.car-box').hover(function(){
-			$(this).find('.car-details').hide();
-			$(this).find('.details-button').show();
-		}, function(){
-			$(this).find('.car-details').show();
-			$(this).find('.details-button').hide();
-		});
-	});
-</script>
  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
   <link href='https://fonts.googleapis.com/css?family=Oswald|Pathway+Gothic+One|Permanent+Marker' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/animate.css">
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 
   <style>
   #inputEmail3, #inputPassword3{

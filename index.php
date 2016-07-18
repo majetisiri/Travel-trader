@@ -3,15 +3,16 @@
 	<title> Travel Trader</title>
 	<link rel="stylesheet" href="css/bootstrap.min.css">	
 	<link rel="stylesheet" href="css/siri.css">
+	<link rel="stylesheet" href="css/animate.css">
 	</head>
 
 	<body>
-		<p id="heading">Travel Trader</p>
-		<p id="caption">The vehicles we drive say a lot about us.</p>
+		<p id="heading" class="animated rubberBand">Travel Trader</p>
+		<p id="caption" class="animated pulse">The vehicles we drive say a lot about us.</p>
 		<div class="container">
 		<div class="col-md-offset-3">
 			<form method="post" action="vehicles.php" class="form-inline">
-					<div class="listing form-group">
+					<div class="listing form-group animated slideInLeft">
 						<select class="form-control box"  name="listing_type">
 							<option>Vehicle Type</option>
 							<option>Car</option>
@@ -20,10 +21,10 @@
 							<option>Motor Cycle</option>
 						</select>
 					</div>
-					<div class="keyword form-group">
+					<div class="keyword form-group animated slideInLeft">
 						<input type="text" name="keyword" class="form-control box" placeholder="Enter a Keyword">
 					</div>
-					<div class="priceRange form-group">
+					<div class="priceRange form-group animated slideInRight">
 						<select class="form-control box" name="min_price">
 							<option>Min Price</option>
 							<option>$1000</option>
@@ -37,7 +38,7 @@
 							<option>$40000</option>
 							<option>$50000</option>
 						</select>
-						<select class="form-control box"  name="max_price">
+						<select class="form-control box animated slideInRight"  name="max_price">
 							<option>Max Price</option>
 							<option>$100000</option>
 							<option>$200000</option>
@@ -46,7 +47,7 @@
 							<option>$1000000</option>
 						</select>
 					</div>
-					<div class="form-group">
+					<div class="form-group animated slideInRight">
 						<button class="btn" name="search">
 							Search
 						</button>
