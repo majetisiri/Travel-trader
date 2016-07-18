@@ -48,7 +48,7 @@
 						</select>
 					</div>
 					<div class="form-group animated slideInRight">
-						<button class="btn" name="search">
+						<button class="btn btn-warning" name="search" >
 							Search
 						</button>
 					</div>

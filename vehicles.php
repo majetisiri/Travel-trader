@@ -7,8 +7,16 @@ include 'header.php';
 if (isset($_POST['search'])) {
 	$listing_type = $_POST['listing_type'];
 	$keyword= $_POST['keyword'];
-	$min_price = substr($_POST['min_price'], 1);
-	$max_price = substr($_POST['max_price'], 1);
+
+	$min_price = -1;
+	$max_price = 10000000000;
+
+	if($POST['min_price']) {
+		$min_price = substr($_POST['min_price'], 1);
+	}
+	if($POST['max_price']) {
+		$max_price = substr($_POST['max_price'], 1);
+	}
 	
 	if($listing_type !=null and $min_price != null and $max_price != null){
 		$sql = "select * from vehicles
@@ -25,24 +33,7 @@ if (isset($_POST['search'])) {
 		// echo "im here";
 		echo displayCars($result,$conn);
 	}
-	// elseif($listing_type !=null){
-	// 	$sql = "select * from vehicles
-	// 			join seller
- //                 on seller.vehicle_id = vehicles.vehicle_id
-	// 		 where type_id in(select id from vehicle_type 
-	// 		 					where vehicle_type ='$listing_type')";
-		
-	// 	$result = $conn->query($sql);
-	// 	// echo "im here null null null";
-	// 	echo displayCars($result,$conn);
-	// }
-
-	// //print_r($result->fetch_assoc());
-	else{
-		header('Location:index.php');
-		$err ="Vehicle Type, Min price, Max Price required";
-	}
-
+	
 }
 
 function displayCars($result,$conn){
@@ -64,16 +55,18 @@ function displayCars($result,$conn){
 			<div style="margin-bottom:30px; cursor:pointer;" class="animated slideInUp col-xs-4 col-sm-2 col-md-2 car-box post" id="'.$row["vehicle_id"].'"><a href="vehicles.php?vehicle_id='.urlencode($row["vehicle_id"]).'">
     			<div style="box-shadow: 1px 1px 1px #888888;" class="thumbnail">
       				<div class="caption">
-            			 <h4>'.$row["make"].' '.$row["model"].'</h4><hr>
+            			 <h5>'.$row["make"].' '.$row["model"].'</h5><hr>
       				</div>
       				<img width="150" style="margin-bottom:40px;" src="'.$url['img_url'].'"> 
         			<div class="row car-info" style="margin-bottom:8px;">
         				<div class="car-details">
         					<div class="col-md-4 text-center">
-        						</br><span style="color:red; font-weight:600;">$'.$row["price"].'</span>
+        						<i class="fa fa-usd" aria-hidden="true" style="color:#888"></i>
+        						<span style="color:#888">'.$row["price"].'</span>
         					</div>
         					<div class="col-md-4 pull-right text-center">
-        						</br>'.$row["year"].'
+								<i class="fa fa-calendar" aria-hidden="true" style="color:#888"></i>
+        						<span style="color:#888">'.$row["year"].'</span>
         					</div>
         				</div>
         				<div class="details-button col-md-12">
@@ -211,9 +204,9 @@ with my flat tire late at night even with all the complications due to the blown
 		 <p class="contact_info"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> '.$row['address'].'</p>
 		</div>
 		<div class="col-md-offset-1 col-md-2 animatedElement1">
-			<input type="email" class="form-control input-sm" id="inputEmail3" placeholder="Name">
-			<input type="password" class="form-control input-sm" id="inputPassword3" placeholder="Email">
-			<input type="password" class="form-control input-sm" id="inputPassword3" placeholder="Subject">
+			<input type="text" class="form-control input-sm" id="inputEmail3" placeholder="Name">
+			<input type="text" class="form-control input-sm" id="inputPassword3" placeholder="Email">
+			<input type="text" class="form-control input-sm" id="inputPassword3" placeholder="Subject">
 			<textarea type="password" class="form-control input-sm" rows="5" id="inputPassword3" placeholder="Your message goes here." ></textarea></br>
 			<button type="submit" class="btn btn-success" id="inputPassword3">Send Message</button></br></br>
 		</div>
@@ -270,106 +263,6 @@ with my flat tire late at night even with all the complications due to the blown
 	});
 </script>
 
- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
-  <link href='https://fonts.googleapis.com/css?family=Oswald|Pathway+Gothic+One|Permanent+Marker' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="css/animate.css">
-    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+a
 
-  <style>
-  #inputEmail3, #inputPassword3{
-  	font-size: 20px;
-  }
- 
-  .carousel-inner > .item > img,
-  .carousel-inner > .item > a > img {
-      max-width: 100%;
-      margin: auto;
-	  height: auto;
-	  display:block;
-	  padding-bottom:80px;
-  }
-  .carousel-indicators .active {
-	  background-color: black;
-}
-
-.carousel-indicators li {
-  border: 1px solid black;
-}
-
-.carousel-control.left {
-  background-image: none;
-}
-.carousel-control.right {
-  background-image: none;
-}
-.left, .right{
-color:black;
-}
-
-#contact{
-background: #272d33;
-color: #fff;
-font-family: 'Pathway Gothic One', sans-serif;
-}
-
-#features{
-background: #fff;
-}
-
-.listing{
-background: #fff;
-margin-bottom:0px;
-}
-
-#heading{
-	font-family: "Permanent Marker", cursive;
-}
-
-#reviews{
-background: #fc5a0a;
-color: #fff;
-font-family: 'Oswald', sans-serif;
-}
-
-.card-title{
-color:black;
-}
-
-.about{
-font-family: 'Open Sans';
-    color: #1f2224;
-	font-style: bold;
-	font-size: 30px;
-}
-
-.about-name{
-color: #fc5a0a;
-font-size: 25px;
-font-style:bold;
-font-family:'Montserrat';
-}
-
-.about-content {
-font-family:'Open Sans';font-size:20px;color:#1c1d21;
-}
-
-.feature{
-font-size: 19px;
-    font-weight: 600;
-    text-transform: uppercase;
-	    padding: 0px 20px 0px 46px;
-color: #fc5a0a;
-}
-
-a:hover{
-	text-decoration: none;
-}
-
-.contact_info{
-	font-size: 20px;
-}
-
-  </style>
+ aagu agu 
