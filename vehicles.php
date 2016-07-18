@@ -16,6 +16,7 @@
 
 		var topOfWindow = $(window).scrollTop();
 			if (imagePos < topOfWindow+400) {
+				$(this).addClass("animated");
 				$(this).addClass("slideOutUp");
 			}
 		});
