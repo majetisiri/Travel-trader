@@ -1,29 +1,3 @@
-<script>
-	$(document).ready(function() {
-		$('.details-button').hide();
-		$('.car-box').hover(function(){
-			$(this).find('.car-details').hide();
-			$(this).find('.details-button').show();
-		}, function(){
-			$(this).find('.car-details').show();
-			$(this).find('.details-button').hide();
-		});
-	});
-
-	$(window).scroll(function() {
-		$('.animatedElement').each(function(){
-		var imagePos = $(this).offset().top;
-
-		var topOfWindow = $(window).scrollTop();
-			if (imagePos < topOfWindow+400) {
-				$(this).addClass("animated");
-				$(this).addClass("slideOutUp");
-			}
-		});
-	});
-</script>
-
-
 <?php
 
 include 'config.php';
@@ -194,7 +168,7 @@ if(isset($_GET['vehicle_id'])){
 	</div>
 </div>
  <div id="reviews">
-	</br><h2  class="text-center" style="font-size:30px;"> REVIEWS </h2></br>
+	</br><h2  class="text-center animatedElement2" style="font-size:30px;"> REVIEWS </h2></br>
 		  <div class="row" style=" margin-bottom:0px;">
 			<div class="col-md-2 col-md-offset-4">
 			  <div class="card animatedElement">
@@ -210,7 +184,7 @@ if(isset($_GET['vehicle_id'])){
 			  </div>
 			</div>
 			<div class="col-md-2">
-			  <div class="card animatedElement">
+			  <div class="card animatedElement1">
 				<div class="card-content">
 				<img src="http://engineering.unl.edu/images/staff/Kayla_Person-small.jpg" width="100%" height="auto">
 				  <span class="card-title">Alan smith</span></br>
@@ -227,8 +201,8 @@ with my flat tire late at night even with all the complications due to the blown
 	</div>
 	<div id="contact">
 	<div class="row">
-	<h2  class="text-center animatedElement" style="font-size:40px;"> CONTACTS </h2></br>
-		<div class="col-md-offset-3" style="float:left">
+	<h2  class="text-center animatedElement2" style="font-size:40px;"> CONTACTS </h2></br>
+		<div class="col-md-offset-3 animatedElement" style="float:left">
 		<p class="contact_info"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Name: '.$row['name'].'</p>
 		<p class="contact_info">Seller Type: '.$row['seller_type'].'</p>
 		<p class="contact_info"><span class="glyphicon glyphicon-phone" aria-hidden="true"></span> '.$row['phone_number'].'</p>
@@ -236,7 +210,7 @@ with my flat tire late at night even with all the complications due to the blown
 		 <p class="contact_info"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> '.$row['website'].'</p>
 		 <p class="contact_info"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> '.$row['address'].'</p>
 		</div>
-		<div class="col-md-offset-1 col-md-2">
+		<div class="col-md-offset-1 col-md-2 animatedElement1">
 			<input type="email" class="form-control input-sm" id="inputEmail3" placeholder="Name">
 			<input type="password" class="form-control input-sm" id="inputPassword3" placeholder="Email">
 			<input type="password" class="form-control input-sm" id="inputPassword3" placeholder="Subject">
@@ -252,6 +226,49 @@ with my flat tire late at night even with all the complications due to the blown
 }
 	
 ?>
+
+<script>
+	$(document).ready(function() {
+		$('.details-button').hide();
+		$('.car-box').hover(function(){
+			$(this).find('.car-details').hide();
+			$(this).find('.details-button').show();
+		}, function(){
+			$(this).find('.car-details').show();
+			$(this).find('.details-button').hide();
+		});
+	});
+
+	$(window).scroll(function() {
+		$('.animatedElement').each(function(){
+		var imagePos = $(this).offset().top;
+
+		var topOfWindow = $(window).scrollTop();
+			if (imagePos < topOfWindow+400) {
+				$(this).addClass("animated");
+				$(this).addClass("slideInRight");
+			}
+		});
+		$('.animatedElement1').each(function(){
+		var imagePos = $(this).offset().top;
+
+		var topOfWindow = $(window).scrollTop();
+			if (imagePos < topOfWindow+400) {
+				$(this).addClass("animated");
+				$(this).addClass("slideInLeft");
+			}
+		});
+		$('.animatedElement2').each(function(){
+		var imagePos = $(this).offset().top;
+
+		var topOfWindow = $(window).scrollTop();
+			if (imagePos < topOfWindow+400) {
+				$(this).addClass("animated");
+				$(this).addClass("tada");
+			}
+		});
+	});
+</script>
 
  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
