@@ -7,7 +7,8 @@
 	}
 
 	.car-box{
-		width: 220px !important;
+		width: 300px !important;
+		height: 500px !important;
 	}
 
 	b{

@@ -10,7 +10,8 @@ if (isset($_POST['search'])) {
 	$min_price = substr($_POST['min_price'], 1);
 	$max_price = substr($_POST['max_price'], 1);
 	
-	$sql = "select * from vehicles
+	if($listing_type !=null and $min_price != null and $max_price != null){
+		$sql = "select * from vehicles
 				join seller
                  on seller.vehicle_id = vehicles.vehicle_id
 			 where type_id in(select id from vehicle_type 
@@ -19,34 +20,60 @@ if (isset($_POST['search'])) {
 			and (price <'$max_price')
 			and (model like '%$keyword%' or make like '%$keyword%' or description like '%$keyword%' or fuel_type like '%$keyword%' or color like '%$keyword%' or transmission like '%$keyword%' or body_type like '%$keyword%');";
 		
-	$result = $conn->query($sql);
+		$result = $conn->query($sql);
 
-	//print_r($result->fetch_assoc());
+		// echo "im here";
+		echo displayCars($result,$conn);
+	}
+	// elseif($listing_type !=null){
+	// 	$sql = "select * from vehicles
+	// 			join seller
+ //                 on seller.vehicle_id = vehicles.vehicle_id
+	// 		 where type_id in(select id from vehicle_type 
+	// 		 					where vehicle_type ='$listing_type')";
 		
+	// 	$result = $conn->query($sql);
+	// 	// echo "im here null null null";
+	// 	echo displayCars($result,$conn);
+	// }
+
+	// //print_r($result->fetch_assoc());
+	else{
+		header('Location:index.php');
+		$err ="Vehicle Type, Min price, Max Price required";
+	}
+
+}
+
+function displayCars($result,$conn){
+	// echo "im in function";
+	// print_r($result);
 	if ($result->num_rows > 0) {
 		echo '<div class="container" style="margin-top:50px;">';	
-
+		// echo 'im here rows not 0';
 		while($row= $result->fetch_assoc()) {
 			$vid = $row["vehicle_id"];
+			// print_r($row);
+			// echo $vid;
 			$sql1= "select img_url from listing_images
 			where listing_images.vehicle_id = '$vid' limit 1";
 			$result1 =$conn->query($sql1);
 			$url = $result1->fetch_assoc();
-			// print_r($url);
+			// echo 'im here finally';
 		echo ' 
 			<div style="margin-bottom:30px; cursor:pointer;" class="col-xs-4 col-sm-2 col-md-2 car-box post" id="'.$row["vehicle_id"].'"><a href="vehicles.php?vehicle_id='.urlencode($row["vehicle_id"]).'">
     			<div style="box-shadow: 1px 1px 1px #888888;" class="thumbnail">
       				<div class="caption">
-            			 <h4>'.$row["model"].'</h4><hr>
+            			 <h4>'.$row["make"].' '.$row["model"].'</h4><hr>
       				</div>
       				<img width="150" style="margin-bottom:40px;" src="'.$url['img_url'].'"> 
         			<div class="row car-info" style="margin-bottom:8px;">
         				<div class="car-details">
         					<div class="col-md-4 text-center">
-        						<b>MAKE</b></br>'.$row["make"].'
+        						</br><span style="color:red; font-weight:600;">$'.$row["price"].'</span>
         					</div>
         					<div class="col-md-4 pull-right text-center">
-        						<b>YEAR</b></br>'.$row["year"].'
+        						</br>'.$row["year"].'
         					</div>
         				</div>
         				<div class="details-button col-md-12">
@@ -57,15 +84,9 @@ if (isset($_POST['search'])) {
         				</div>
         			</div>
           		</div></a>
-          	</div>';
+          	</div></div>';
 		}
-		echo '</div>';
-	}
-
-	else{
-		$loginErr = "Matches Not Found";
-		header('Location:index.php');
-		echo '<p>Matches Not Found</p>';
+		// echo 'im here finally';
 	}
 }
 
@@ -94,7 +115,7 @@ if(isset($_GET['vehicle_id'])){
 			echo '<div class="row listing">
   <div id="myCarousel" class="carousel slide" data-ride="carousel">
     <!-- Indicators -->
-	<h4 style="text-align:center">'.$row['year'].' '.$row['make'].' '.$row['model'].'<h4>
+	<h4 style="text-align:center" id="heading">'.$row['year'].' '.$row['make'].' '.$row['model'].'<h4>
     <ol class="carousel-indicators">';
 
     for($j=0; $j<count($json_img_url); $j++){
@@ -147,7 +168,7 @@ if(isset($_GET['vehicle_id'])){
 	</div>
 </div>
  <div id="reviews">
-	<h2  class="text-center" style="font-size:30px;"> REVIEWS </h2></br>
+	</br><h2  class="text-center" style="font-size:30px;"> REVIEWS </h2></br>
 		  <div class="row" style=" margin-bottom:0px;">
 			<div class="col-md-2 col-md-offset-4">
 			  <div class="card">
@@ -158,7 +179,7 @@ if(isset($_GET['vehicle_id'])){
 				   <span class="glyphicon glyphicon-star" aria-hidden="true" style="color:#fc5a0a"></span>
 				   <span class="glyphicon glyphicon-star" aria-hidden="true" style="color:#fc5a0a"></span>
 				   <span class="glyphicon glyphicon-star" aria-hidden="true" style="color:#fc5a0a"></span>
-				  <p style="color:black;">We have used Auto Towing for years to tow unauthorized vehicles out of our apartment community. They are always professional. They understand our needs and strict requirements, which help tremendously when dealing with difficult situations. I would recommend them to others.</p>
+				  <p style="color:black; font-size:14px">We have used Auto Towing for years to tow unauthorized vehicles out of our apartment community. They are always professional. They understand our needs and strict requirements, which help tremendously when dealing with difficult situations. I would recommend them to others.</p>
 				</div>
 			  </div>
 			</div>
@@ -172,7 +193,7 @@ if(isset($_GET['vehicle_id'])){
 				   <span class="glyphicon glyphicon-star" aria-hidden="true" style="color:#fc5a0a"></span>
 				   <span class="glyphicon glyphicon-star" aria-hidden="true" style="color:#fc5a0a"></span>
 				   <span class="glyphicon glyphicon-star" aria-hidden="true" style="color:#fc5a0a"></span>
-				  <p style="color:black;">I was very impressed with how fast the drivers helped me
+				  <p style="color:black; font-size:14px">I was very impressed with how fast the drivers helped me
 with my flat tire late at night even with all the complications due to the blown tire. They were kind and very helpful and Chris worked with me and got my car done quick. Thanks just really seems like it’s not enough.</p></div>
 			  </div>
 			</div>
@@ -180,21 +201,21 @@ with my flat tire late at night even with all the complications due to the blown
 	</div>
 	<div id="contact">
 	<div class="row">
-	<h2  class="text-center" style="font-size:30px;"> CONTACTS </h2></br>
+	<h2  class="text-center" style="font-size:40px;"> CONTACTS </h2></br>
 		<div class="col-md-offset-3" style="float:left">
-		<p><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Name:'.$row['name'].'</p>
-		<p>Seller Type: '.$row['seller_type'].'</p>
-		<p><span class="glyphicon glyphicon-phone" aria-hidden="true"></span> '.$row['phone_number'].'</p>
-		 <p><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> '.$row['email'].'</p>
-		 <p><span class="glyphicon glyphicon-home" aria-hidden="true"></span> '.$row['website'].'</p>
-		 <p><span class="glyphicon glyphicon-home" aria-hidden="true"></span> '.$row['address'].'</p>
+		<p class="contact_info"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Name: '.$row['name'].'</p>
+		<p class="contact_info">Seller Type: '.$row['seller_type'].'</p>
+		<p class="contact_info"><span class="glyphicon glyphicon-phone" aria-hidden="true"></span> '.$row['phone_number'].'</p>
+		 <p class="contact_info"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> '.$row['email'].'</p>
+		 <p class="contact_info"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> '.$row['website'].'</p>
+		 <p class="contact_info"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> '.$row['address'].'</p>
 		</div>
 		<div class="col-md-offset-1 col-md-2">
 			<input type="email" class="form-control input-sm" id="inputEmail3" placeholder="Name">
 			<input type="password" class="form-control input-sm" id="inputPassword3" placeholder="Email">
 			<input type="password" class="form-control input-sm" id="inputPassword3" placeholder="Subject">
 			<textarea type="password" class="form-control input-sm" rows="5" id="inputPassword3" placeholder="Your message goes here." ></textarea></br>
-			<button type="submit" class="btn btn-success">Send Message</button></br></br>
+			<button type="submit" class="btn btn-success" id="inputPassword3">Send Message</button></br></br>
 		</div>
 		</div>
 		
@@ -222,8 +243,13 @@ with my flat tire late at night even with all the complications due to the blown
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Oswald|Pathway+Gothic+One|Permanent+Marker' rel='stylesheet' type='text/css'>
 
   <style>
+  #inputEmail3, #inputPassword3{
+  	font-size: 20px;
+  }
+ 
   .carousel-inner > .item > img,
   .carousel-inner > .item > a > img {
       max-width: 100%;
@@ -253,6 +279,7 @@ color:black;
 #contact{
 background: #272d33;
 color: #fff;
+font-family: 'Pathway Gothic One', sans-serif;
 }
 
 #features{
@@ -264,10 +291,14 @@ background: #fff;
 margin-bottom:0px;
 }
 
+#heading{
+	font-family: "Permanent Marker", cursive;
+}
 
 #reviews{
 background: #fc5a0a;
 color: #fff;
+font-family: 'Oswald', sans-serif;
 }
 
 .card-title{
@@ -299,4 +330,13 @@ font-size: 19px;
 	    padding: 0px 20px 0px 46px;
 color: #fc5a0a;
 }
+
+a:hover{
+	text-decoration: none;
+}
+
+.contact_info{
+	font-size: 20px;
+}
+
   </style>
